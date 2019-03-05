@@ -78,11 +78,7 @@ public class Espiral{
 			for(tempY=PointAux.y; tempY<=(quadrado-1); tempY++){
 			
 			PointAux.y=tempY;
-			//System.out.println("tempY= " + tempY);
-				
 				if(k==x){
-					//PointAux.y=tempY;
-					//PointAux.show();
 					return PointAux;
 				}
 				k++;
@@ -94,7 +90,6 @@ public class Espiral{
 				PointAux.x=tempX;
 				
 				if(k==x){
-					//PointAux.show();
 					return PointAux;
 				}
 				k++;
@@ -107,7 +102,6 @@ public class Espiral{
 				PointAux.y=tempY;
 				
 				if(k==x){
-					//PointAux.show();
 					return PointAux;
 
 
@@ -121,7 +115,6 @@ public class Espiral{
 				PointAux.x=tempX;
 				
 				if(k==x){
-					//PointAux.show();
 					return PointAux;
 				}
 				k++;
@@ -145,6 +138,3 @@ public class Espiral{
 	}
 		
 }
-			
-			
-			
