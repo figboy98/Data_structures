@@ -30,15 +30,43 @@ class Matrix {
       return ans;
    }
    
+   //métodos
+   
+   
+   //devolve a matriz identidade
+   
+   public static Matrix identity(int n){
+	   
+	   Matrix identidade= new Matrix(n,n);
+	   
+		for(int i=0; i<n; i++){
+			identidade.data[i][i]= 1;
+		}
+		
+		return identidade;
+	}
+	
+	public Matrix transpose(){
+		
+		Matrix transposta = new Matrix(cols, rows);
+		
+		for(int i=0; i<rows; i++){
+			for(int j=0; j<cols; ++){
+				transposta.data[j][i]
+		
+		
+		return transposta;
+	}
+		
+		
+   
 }
 
 public class TestMatrix {
    public static void main(String[] args) {
       Scanner stdin = new Scanner(System.in);
-      Matrix m = new Matrix(stdin.nextInt(), stdin.nextInt());
-      m.read(stdin);
-      System.out.print(m);
-      throw new RuntimeException("My very first custom error.");
+      Matrix m1 = Matrix.identity(5);
+      System.out.println(m1);
 
    }    
 }
