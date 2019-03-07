@@ -87,19 +87,3 @@ class Matrix {
 	}
 }
 
-public class TestMatrix {
-   public static void main(String[] args) {
-      Scanner stdin = new Scanner(System.in);
-     
-     Matrix m2 = new Matrix(stdin.nextInt(), stdin.nextInt());
-      m2.read(stdin);
-      //System.out.println(m2);
-      Matrix m4 = new Matrix(stdin.nextInt(), stdin.nextInt());
-      m4.read(stdin);
-      //System.out.println(m3)
-      
-		Matrix m8 = m2.multiply(m4);
-      System.out.println(m8);
-
-   }    
-}
