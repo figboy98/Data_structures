@@ -1,32 +1,50 @@
 import java.util.Scanner;
 
 
-class Matrix {
+class MatrixChar {
    char data[][]; // os elementos da matriz em si
-   int rows;     // numero de linhas
-   int cols;     // numero de colunas
+   int linhas;     // numero de linhas
+   int colunas;     // numero de colunas
 
    // construtor padrao de matriz
-   Matrix(int r, int c) {
+   MatrixChar(int r, int c) {
       data = new char[r][c];
-      rows = r;
-      cols = c;
+      linhas = r;
+      colunas = c;
    }
 
    // Ler os rows x cols elementos da matriz
-   public void read(Scanner in) {
-      for (int i=0; i<rows; i++)
+ /*  public void read(Scanner in) {
+	   String aux= new String();
+      for (int i=0; i<rows; i++){
+		aux = in.nextLine();
          for (int j=0; j<cols; j++){
-			 char c = in.next().charAt(j);
-			data[i][j] = c;
+			data[i][j] = aux.charAt(j);
    }
 }
+} */
+
+	//Ler matrizChar
+	
+	public void read (Scanner in){
+		
+		String aux= new String();
+		
+		for(int i=0; i<linhas; i++){
+			aux=in.nextLine();
+			
+			for(int j=0; j<colunas;j++){
+				data[i][j]= aux.charAt(j);
+			}
+		}
+	}
+			
 
    // Representacao em String da matrix
-   public String toString() {
+  public String toString() {
       String ans = "";
-      for (int i=0; i<rows; i++) {
-         for (int j=0; j<cols; j++)
+      for (int i=0; i<linhas; i++) {
+         for (int j=0; j<colunas; j++)
             ans += data[i][j];
          ans += "\n";
       }
@@ -41,15 +59,86 @@ public class Cardinais{
 		Scanner stdin= new Scanner(System.in);
 		int linhas= stdin.nextInt();
 		int colunas= stdin.nextInt();
-		Matrix cardinais= new Matrix(linhas,colunas);
-		//char[][] = new char[rlinhas[colunas];
 		
+		MatrixChar cardinais= new MatrixChar(linhas,colunas);
+		stdin.nextLine();
 		
 		cardinais.read(stdin);
-		System.out.println();
-		System.out.println(cardinais);
 		
+		//procurar maior sequencia de # na horizontal
+		int i;
+		int j;
+		int cont=0;
+		int maior=0;
+		int aparece=0;
 		
+		for(i=0; i<linhas;i++){
+			for(j=0; j<colunas; j++){
+				if(cardinais.data[i][j] == '#'){
+					cont++;
+				}
+				
+				else{
+					if(cont >maior){
+						maior=cont;
+						aparece=0;
+					}
+					
+					if(cont==maior){
+						aparece++;
+					}
+					cont=0;
+
+				}
+			}
+			
+			if(cont >maior){
+						maior=cont;
+						aparece=0;
+					}
+					
+			if(cont == maior){
+				aparece++;
+				}
+					cont=0;
+			}
 		
+		cont=0;
+		//procurar maior sequencia na vertical
+		
+		for(i=0; i<colunas;i++){
+			for(j=0; j<linhas; j++){
+				if(cardinais.data[j][i] == '#'){
+					cont++;
+				}
+				
+				else{
+					if(cont >maior){
+						maior=cont;
+						aparece=0;
+					}
+					
+					if(cont==maior){
+						aparece++;
+					}
+					cont=0;
+
+				}
+			}
+			
+			if(cont >maior){
+						maior=cont;
+						aparece=0;
+					}
+					
+			if(cont == maior){
+				aparece++;
+				}
+					cont=0;
+			}
+			
+		
+		System.out.println(maior+" "+ aparece); 
 	}
 }
+	
