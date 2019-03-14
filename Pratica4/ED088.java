@@ -41,9 +41,16 @@ class Game {
     // Deve devolver o numero de celulas vivas que sao vizinhas de (y,x)
     public int countAlive(int y, int x) {
 	int count = 0;
-	if((y!=0 && y!=rows) && (x!=0 && x!=cols)){
-		for(int i=(y-1); i<=(y+1); i++){
-			for(int j=(x-1); j<=(x+1); j++){
+	int i,j,limI,limJ;
+	
+	if(y==0) i=y; limI=1;
+	if(y==rows) i=y-1; limI=y;
+	if(x==0) j=x; limJ=x+1;
+	if(x==cols) j=x-1; limJ=x;
+	
+	
+		for(i; i<=limI ; i++){
+			for(j; j<=limJ; j++){
 				System.out.print(m[i][j]);
 				if(m[i][j] == 'O'){
 					count++;
@@ -51,9 +58,8 @@ class Game {
 				
 			}System.out.println();
 		}
-	}
 	
-	else	
+	
 	
 	return count-1;
     }
@@ -79,7 +85,7 @@ public class ED088 {
 	Game g = new Game(rows, cols);
 	g.read(in);
 	//g.write();
-	int aux= g.countAlive(1,2);
+	int aux= g.countAlive(0,0);
 	System.out.println(aux);
 	
 	
