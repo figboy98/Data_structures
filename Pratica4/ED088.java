@@ -46,33 +46,73 @@ class Game {
 
     // Deve devolver o numero de celulas vivas que sao vizinhas de (y,x)
     public int countAlive(int y, int x) {
+		//y=2;
+		//x=26;
 	int count=0, aux=0;
 	int i,j,limI,limJ;
 	
-	//if(rows==1 && cols==1){
-		//count= countAliveAux(y, x, y+1, x+1);
-			//if(m[y][x] =='O'){
-				//return aux -1;
-			//}
-			//return aux;
-	//}
+	if(y==0 && x==0){  //canto superior esquerdo
+		 count= countAliveAux(y, x, y+1, x+1);
+		 count=countAux(y,x,count);
+		// System.out.println(count);
+		 return count;
+		 }
+		   
+	else if(y==(rows-1) && x==(cols-1)){ //canto inferior direito 
+		 count= countAliveAux(y-1, x-1, y, x);
+		 count=countAux(y,x,count);
+		 //System.out.println(count);
+		 return count;
+		 }
+		 
+	else if(x==0 && y==rows-1) { // canto inferior esquerdo
+		count=countAliveAux(y-1, x, y, x+1);
+		count=countAux(y,x,count);
+		//System.out.println(count);
+		return count;
+	}
 		
+	else if(y==0 && x==cols-1){ //canto superior direito
+		count=countAliveAux(y, x-1, y+1, x);
+		count=countAux(y,x,count);
+		//System.out.println(count);
+		return count;
+	}
 	
-	if(y==0 && x==0) count= countAliveAux(y, x, y+1, x+1);  //canto superior esquerdo 
-	if(y==(rows-1) && x==(cols-1)) count= countAliveAux(y-1, x-1, y, x);//canto inferior direito 
-	if(x==0 && y==rows-1) count=countAliveAux(y-1, x, y, x+1); // canto inferior esquerdo
-	if(y==0 && x==cols-1) count=countAliveAux(y, x-1, y+1, x); //canto superior direito
+	else if(x==0 && y!=0 && y!=rows-1){ // vertical esquerda
+		count=countAliveAux(y-1, x, y+1, x+1);
+		count=countAux(y,x,count);
+		//System.out.println(count);
+		return count;
+	}
 	
-	if(x==0 && y!=0 && y!=rows-1) count=countAliveAux(y-1, x, y+1, x+1); // vertical esquerda
-	if(x==cols-1 && y!=0 && y!=rows-1) count=countAliveAux(y-1, x-1, y+1, x); //vertical direita
-	if(y==0 && x!=0 && x !=cols-1) count=countAliveAux(y, x-1, y+1, x+1); //horizontal superior
-	if(y==rows-1 && x!=0 && x!=cols-1) count=countAliveAux(y-1, x-1, y, x+1);//horizontal inferior
-	if(y!=0 && y!=rows-1 && x!=0 && x!=cols-1) count=countAliveAux(y-1, x-1, y+1, x+1);//interior do quadrado
+	else if(x==cols-1 && y!=0 && y!=rows-1){ //vertical direita
+		count=countAliveAux(y-1, x-1, y+1, x);
+		count=countAux(y,x,count);
+		//System.out.println(count);
+		return count;
+	}
 	
-	if(m[y][x] =='O'){
-			return aux -1;
-		}
-		return aux;
+	else if(y==0 && x!=0 && x !=cols-1){  //horizontal superior
+		count=countAliveAux(y, x-1, y+1, x+1);
+		count=countAux(y,x,count);
+		//System.out.println(count);
+		return count;
+	}
+
+	else if(y==rows-1 && x!=0 && x!=cols-1){//horizontal inferior
+		count=countAliveAux(y-1, x-1, y, x+1);
+		count=countAux(y,x,count);
+		//System.out.println(count);
+		return count;
+	}
+	
+	else /*(y!=0 && y!=rows-1 && x!=0 && x!=cols-1)*/{ //interior do quadrado
+		count=countAliveAux(y-1, x-1, y+1, x+1);
+		count=countAux(y,x,count);
+		//System.out.println(count);
+		return count;
+	}
 	
 	
 }
@@ -80,6 +120,7 @@ class Game {
 	
 	public int countAliveAux(int y, int x, int limI, int limJ){
 		int aux=0;
+		
 		if(rows==1) limI=0;
 		if(cols==1) limJ=0;
 		
@@ -103,30 +144,51 @@ class Game {
 	
 	int aux;
 	char m2[][]= new char[rows][cols];
+	//Game m2= new Game(rows,cols);
 	
 	for(int i=0; i<rows;i++){
 		for(int j=0; j<cols; j++){
-			if(m[i][j] == 'O'){
+			if(m[i][j] == ALIVE){
 				aux=countAlive(i,j);
-				if(aux <=1 || aux >=4)  m2[i][j] = '.';
-				if(aux==2 || aux ==3) m2[i][j]='O';
-				aux=0;
+				if(aux ==0 || aux ==1){  
+					m2[i][j] = DEAD; 
+					//break;
+				}
+				
+				else if(aux>=4){
+					 m2[i][j]= DEAD; 
+					 //break;
+				 }
+				if(aux==2 || aux ==3){ 
+					m2[i][j]=ALIVE; 
+					//break;
+				}
+				//aux=0;
 				
 			}
-			else{
+			else if(m[i][j]==DEAD){
 				aux=countAlive(i,j);
-				if(aux==3) m2[i][j]='O';
-				if(aux!=3) m2[i][j]='.';
+				if(aux==3){ 
+					m2[i][j]=ALIVE;
+					//break;
+				}
+				else if(aux!=3){ 
+					m2[i][j]=DEAD;
+					//break;
+				}
+				//aux=0;
 				
 			}		
     }
    
 }
 		for(int i=0; i<rows;i++){
-			for(int j=0; j<rows; j++){
+			for(int j=0; j<cols; j++){
 				m[i][j]= m2[i][j];
 			}
 		}
+		
+	
 
 }
 }
@@ -149,8 +211,10 @@ public class ED088 {
 	
 	for(int i=0; i<n;i++){
 		g.iterate();
-	}
-	
+		
+		//g.write();
+		//System.out.println();
+	}	
 	g.write();
     }
 }
