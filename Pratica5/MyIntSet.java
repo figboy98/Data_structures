@@ -1,63 +1,73 @@
-public class MyIntSet implements IntSet {
-   private int size;   // Numero de elementos do conjunto
-   private int elem[]; // Array que contem os elementos em si 
-   
-   //Construtor
-   
-   MyIntSet(){
-	   elem = new int[100000000];
-   }
-   
-   MyIntSet(int maxSize) {
-      elem = new int[maxSize];
-      size = 0;
-   }
-
-   public boolean add(int x) {
-      if (!contains(x)) {
-         if (size == elem.length)
-            throw new RuntimeException("Maximum size of set reached");         
-         elem[size] =  x;
-         size++;
-         return true;
-      }
-      return false;
-   }
-
-   public boolean remove(int x) {
-      if (contains(x)) {
-         int pos = 0;
-         while (elem[pos] != x) pos++;
-         size--;
-         elem[pos] = elem[size]; // Trocar ultimo elemento 
-         return true;            // com o que se removeu
-      }
-      return false;
-   }
-   
-   
-   public boolean contains(int x) {
-      for (int i=0; i<size; i++)
-         if (elem[i] == x)
-            return true;
-      return false;
-   }
-   
-   public void clear() {
-      size = 0;
-   }
-   
-   public int size() {
-      return size;
-   }
-
-   public String toString() {
-      String res = "{";
-      for (int i=0; i<size; i++) {
-         if (i>0) res += ",";
-         res += elem[i];
-      }
-      res += "}";
-      return res;
-   }
+public class  MyIntSet implements IntSet{
+	
+	private int size;
+	
+	private boolean isElem[];
+	
+	
+	//construtor
+	MyIntSet(){
+		isElem = new boolean[100];
+		size=0;
+	}
+	MyIntSet(int maxSize){
+		isElem = new boolean[maxSize];
+		for(int i=0; i<maxSize; i++){
+			isElem[i]=false;
+		}
+		size=0;
+	}
+	
+	//Métodos
+	
+	//Colocar True no Array para "adicionar" o número
+	
+	public boolean add(int x){
+		
+		if(!contains(x)){
+			if(size==isElem.length){
+				throw new RuntimeException("Maximum size of set reached");
+			}
+			isElem[x]=true;
+			size++;
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean contains(int x){
+		
+		if(isElem[x]== false){
+			return false;
+		}
+		return true;
+	}
+	
+	public int size(){
+		return size;
+	}
+	
+	public boolean remove(int x){
+		if(contains(x)){
+			isElem[x]=false;
+			size--;
+			return true;
+		}
+		return false;
+	}
+	
+	public void clear(){
+		size=0;
+	}
+	public String toString(){
+		String res = "{";
+		for(int i=0; i<size; i++){
+			if(i>0) res+=",";
+			if(contains(i)){
+				res+=i;
+			}
+		}
+		return res;
+	}
 }
+	
