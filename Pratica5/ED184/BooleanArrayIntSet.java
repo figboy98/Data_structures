@@ -6,6 +6,10 @@ public class  BooleanArrayIntSet implements IntSet{
 	
 	
 	//construtor
+	BooleanArrayIntSet(){
+		isElem= new boolean[10000];
+		size=0;
+	}
 	
 	BooleanArrayIntSet(int maxSize){
 		isElem = new boolean[maxSize];

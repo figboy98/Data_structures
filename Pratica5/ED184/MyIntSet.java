@@ -7,7 +7,7 @@ public class  MyIntSet implements IntSet{
 	
 	//construtor
 	MyIntSet(){
-		isElem = new boolean[100];
+		isElem = new boolean[1000];
 		size=0;
 	}
 	MyIntSet(int maxSize){
