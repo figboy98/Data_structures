@@ -108,14 +108,12 @@ public BigNumber multiply(BigNumber n){
 					count++;	
 		}
 		
-		novo1.size=count;
-		System.out.println(novo1);
+		novo1.size=count+k;
+		//System.out.println(novo1);
 		novo2=novo1.add(novo2);
 		//System.out.println(novo2);
 
 	}
-	
-	
 	return novo2;
 		
 	
