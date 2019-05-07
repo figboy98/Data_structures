@@ -5,6 +5,7 @@
 
 import java.util.Scanner;
 import java.util.LinkedList;
+import java.text.*;
 
 // Classe para representar um Doente
 class Doente {
@@ -46,7 +47,9 @@ class Equipa {
 
     // Novo doente d comecou a ser atendido num dado tempo t nesta equipa
     void novoDoente(Doente d, int t) {
-	// a completar ...
+		numDoentes++;
+		totalAtendimento+=d.atendimento;
+		livre=t+d.atendimento;;
     }
 }
 
@@ -82,12 +85,11 @@ class ED098 {
 	   // System.out.printf("Li [%s,%s,%d,%d]%n", nome, cor, chegada, atendimento);
 	 
 	   int auxCor=indiceCor(cor);
-	   Doente novo= new Doente(nome,auxCor,atendimento);
+	   Doente novo= new Doente(nome,chegada,atendimento);
 	   
 	   emEspera[auxCor].fila.enqueue(novo);
 	   numDoentes++;
-	    
-	    // a completar ...
+	  
 	}
     }
 
@@ -98,23 +100,23 @@ class ED098 {
 	System.out.println("------------");
 	int d=emEspera[0].fila.size();
 	
-	System.out.printf("%-8s %3d\n","Vermelho",d);
-	int d=emEspera[1].fila.size();
+	System.out.printf("%8s %3d\n","Vermelho",d);
+	d=emEspera[1].fila.size();
 
-	System.out.printf("%-8s %3d\n","Laranja",d);
-	int d=emEspera[2].fila.size();
+	System.out.printf("%8s %3d\n","Laranja",d);
+	d=emEspera[2].fila.size();
 
-	System.out.printf("%-8s %3d\n","Amarelo",d);
-	int d=emEspera[3].fila.size();
+	System.out.printf("%8s %3d\n","Amarelo",d);
+	d=emEspera[3].fila.size();
 
-	System.out.printf("%-8s %3d\n","Verde",d);
-	int d=emEspera[4].fila.size();
+	System.out.printf("%8s %3d\n","Verde",d);
+	d=emEspera[4].fila.size();
 
-	System.out.printf("%-8s %3d\n","Azul",d);
+	System.out.printf("%8s %3d\n","Azul",d);
 	System.out.println("------------");
 
 	 
-	System.out.println("Numero doentes atendidos:"+numDoentes);
+	System.out.println("Numero doentes atendidos: "+numDoentes);
 
     }
     
@@ -125,11 +127,18 @@ class ED098 {
 	System.out.println("Lista dos doentes atendidos");
 	System.out.println("---------------------------");
 	// itera sobre todos os doentes já atendidos (instrução for-each)
-	for (Doente d : atendidos) { 
-	    System.out.println(d.nome);
+	float media=0;
+	for (Doente d : atendidos) {
+		media+=(d.entrada-d.chegada); 
+	    System.out.println(d.nome +" "+ d.chegada+ " " + (d.entrada-d.chegada)+" "+ (d.entrada+d.atendimento));
 	    // a completar ...
 	}
 	System.out.println("---------------------------");
+	
+	media=media/atendidos.size();
+	
+	
+	System.out.printf("Tempo medio de espera: %.1f\n",media);
     }
 
     // Mostrar estatisticos das equipas (necessario para flag==2)
@@ -137,32 +146,80 @@ class ED098 {
 	System.out.println("-----------------------");
 	System.out.println("Equipa NDoentes MediaTA");
 	System.out.println("-----------------------");
+	
+	for(int i=0; i<numEquipas; i++){
+		double size=(double)equipas[i].numDoentes;
+		double media=0;
+		media=(equipas[i].totalAtendimento/size);
+		//System.out.println(equipas[i].totalAtendimento);
+		System.out.printf("%6d%9d%8.1f%n",i, equipas[i].numDoentes, media); 
+	}
 
-	// a completar ...
     }
 
     // Qual a cor da proxima equipa a ficar livre?
-    private static int proximaEquipaLivre() {
-	// a completar ...
-	return -1;
-    }
+    private static int proximaEquipaLivre(){
+		int min=equipas[0].livre;
+		int indice=0;
+		
+		for(int i=0; i<numEquipas; i++){
+			int aux=equipas[i].livre;
+			
+			if(aux<min){
+				min=aux;
+				indice=i;
+			} 
+		}
+		return indice;
+	}	
+    
 
     // Qual a cor mais prioritaria com doente ainda por ser atendido no tempo atual?
     private static int proximoDoente(int tempo) {
-	// a completar ...
+		
+		for(int i=0; i<5; i++){
+			Doente aux=emEspera[i].fila.first();
+			if(aux !=null){
+				int time= aux.chegada;
+				if(time <= tempo) return i;
+			}
+		}
 	return -1;
     }
 
     // Simular processo de atendimento pelas varias equipas medicas
     private static void simular() {
-	// a completar ...
-    }
-
+		int tempo=0;
+		
+		while(atendidos.size()<numDoentes){
+				
+				int indiceEquipa=proximaEquipaLivre();
+			
+				tempo=equipas[indiceEquipa].livre;
+				
+					
+				int indiceDoente=proximoDoente(tempo);
+					
+				if(indiceDoente==-1){
+					while(indiceDoente==-1){
+						tempo++;
+						indiceDoente=proximoDoente(tempo);
+					}
+				}
+				
+				Doente D=emEspera[indiceDoente].fila.dequeue();
+				equipas[indiceEquipa].novoDoente(D, tempo); 
+				D.entrada=tempo;
+				atendidos.addLast(D);
+			}
+	
+}
     // Inicializar variaveis
     private static void inicializar() {
 	numDoentes = 0;
 
 	emEspera = new FilaAtendimento[NUM_CORES];	
+	
 	for (int i=0; i<NUM_CORES;i++)
 	    emEspera[i] = new FilaAtendimento();
 
@@ -190,7 +247,7 @@ class ED098 {
 	} else {
 	    simular();
 	    if (flag==2) mostrarEquipas(); 
-	    mostrarAtendidos();
+	   mostrarAtendidos();
 	}
     }
 }
