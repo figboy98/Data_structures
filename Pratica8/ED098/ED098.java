@@ -74,6 +74,7 @@ class ED098 {
 	
 	return -1;
     }
+ 
 
     // Ler os doentes a partir do input e coloca-los nas respetivas filas
     private static void lerDoentes(Scanner in) {	
