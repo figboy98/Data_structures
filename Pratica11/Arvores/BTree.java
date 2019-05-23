@@ -158,6 +158,27 @@ public class BTree<T> {
 			return strict(n.getLeft()) && strict(n.getRight());
 		
 	}
+	//ED-206
+	public T path(String s){
+		BTNode<Integer> left=
+		BTNode<Integer> aux = BTNode(root.getValue(), root.getLeft(), root.getRight());
+			aux=getRoot();
+			
+		if(s.charAt(0)=='R')
+			return aux.getValue();
+		
+		else{
+			
+			for(int i=0 ;i<s.length(); i++){
+				if(s.charAt(i)=='E')
+					aux=aux.getLeft();
+				if (s.charAt(i)=='D')
+					aux=aux.getLeft();
+				}
+			}
+				return aux.getValue();
+			}
+			
 		
 	
    // --------------------------------------------------------
